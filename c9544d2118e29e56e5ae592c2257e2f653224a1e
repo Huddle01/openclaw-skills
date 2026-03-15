@@ -1,0 +1,23 @@
+hudl-model-switch/README.md
+  f47d0bd91415835d 36-104,140
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "c9544d2118e29e56e5ae592c2257e2f653224a1e",
+  "prompts": {
+    "f47d0bd91415835d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cf1a9-a3b7-79f3-aa55-125e25f12c01",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Om Gupta <omgupta0720@gmail.com>",
+      "messages": [],
+      "total_additions": 86,
+      "total_deletions": 17,
+      "accepted_lines": 71,
+      "overriden_lines": 0
+    }
+  }
+}
