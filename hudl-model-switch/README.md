@@ -137,7 +137,10 @@ hudl-model-switch/
 1. User says "switch to opus"
 2. Skill runs `validate.sh` to confirm `hudl` provider with `gru.huddle01.io` exists
 3. Maps "opus" to `hudl/claude-opus-4.6` using the model catalog
-4. Edits detected OpenClaw config (`~/.openclaw/config.json` or `~/.openclaw/openclaw.json`) (only `model.primary`, nothing else)
+4. Edits detected OpenClaw config (`~/.openclaw/config.json` or `~/.openclaw/openclaw.json`):
+   - `agents.list[*].model.primary` for the active agent
+   - `agents.defaults.model.primary` for consistency
 5. Runs `openclaw restart`
 
 If the hudl provider isn't configured, the skill refuses to proceed and tells the user what's missing.
+`models.providers.hudl.models` is only a catalog list and does not determine the active model.

@@ -40,11 +40,14 @@ If the user asks for a model not in the catalog, still prefix it with `hudl/` bu
    - `~/.openclaw/config.json` (preferred)
    - `~/.openclaw/openclaw.json` (fallback)
    - or `OPENCLAW_CONFIG` if provided
-2. Find the current agent's entry in `agents.list`
-3. Change only `model.primary` to the new `hudl/`-prefixed model ID
-4. Write the file back
+2. Find the current agent's entry in `agents.list` (typically `id: "main"`).
+3. Change `agents.list[*].model.primary` for the current agent to the new `hudl/`-prefixed model ID.
+4. Also set `agents.defaults.model.primary` to the same `hudl/`-prefixed model ID to keep defaults aligned.
+5. Write the file back.
 
-**Do not touch** `baseUrl`, `apiKey`, `fallbacks`, or any other key.
+Note: `models.providers.hudl.models` is a provider catalog list, not the active model selector. Do not require it to include the active model for switching to work.
+
+**Do not touch** `baseUrl`, `apiKey`, or unrelated keys.
 
 **Step 4: Restart**
 
@@ -58,7 +61,10 @@ Tell the user the switch is complete and which model is now active.
 
 1. Run the validation script (Step 1 above).
 2. Read the same config path selected by validation (`config.json` or `openclaw.json`).
-3. Report the value of `model.primary` from the current agent's entry.
+3. Report:
+   - current agent `agents.list[*].model.primary`
+   - `agents.defaults.model.primary`
+   - and whether they are aligned.
 
 ## Example exchanges
 
