@@ -1,0 +1,27 @@
+hudl-model-switch/Makefile
+  f47d0bd91415835d 9
+hudl-model-switch/README.md
+  f47d0bd91415835d 140-142,146
+hudl-model-switch/SKILL.md
+  f47d0bd91415835d 43-46,48,50,64-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "62ea6bd4153285df262bce29609c6ffe287dc9ca",
+  "prompts": {
+    "f47d0bd91415835d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cf1a9-a3b7-79f3-aa55-125e25f12c01",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Om Gupta <omgupta0720@gmail.com>",
+      "messages": [],
+      "total_additions": 16,
+      "total_deletions": 7,
+      "accepted_lines": 16,
+      "overriden_lines": 0
+    }
+  }
+}
