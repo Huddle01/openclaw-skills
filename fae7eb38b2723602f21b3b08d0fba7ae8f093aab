@@ -1,0 +1,23 @@
+hudl-model-switch/Makefile
+  f47d0bd91415835d 6,8,11,13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "fae7eb38b2723602f21b3b08d0fba7ae8f093aab",
+  "prompts": {
+    "f47d0bd91415835d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cf1a9-a3b7-79f3-aa55-125e25f12c01",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Om Gupta <omgupta0720@gmail.com>",
+      "messages": [],
+      "total_additions": 4,
+      "total_deletions": 5,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    }
+  }
+}
