@@ -1,0 +1,25 @@
+hudl-model-switch/Makefile
+  8ffe5a32f27341c5 9
+hudl-model-switch/SKILL.md
+  8ffe5a32f27341c5 17,61,76-77,80,112,125-131,143,148-154
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.12",
+  "base_commit_sha": "10035f1e5fe97c3217b3c08bd4aa204f7d0d1693",
+  "prompts": {
+    "8ffe5a32f27341c5": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019cf1cb-5305-7a80-915c-c26e0f4d2590",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Om Gupta <omgupta0720@gmail.com>",
+      "messages": [],
+      "total_additions": 26,
+      "total_deletions": 3,
+      "accepted_lines": 24,
+      "overriden_lines": 0
+    }
+  }
+}
