@@ -1,0 +1,3 @@
+[submodule "lossless-claw"]
+	path = lossless-claw
+	url = https://github.com/martian-engineering/lossless-claw
