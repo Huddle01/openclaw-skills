@@ -24,6 +24,7 @@ With Huddle01, you can deploy your OpenClaw agents in exactly **60 seconds**. Wh
 - **⚡ DDR4 ECC RAM**: No bit-flips here, just pure, unadulterated speed.
 - **💾 NVMe Storage**: Because waiting for disk I/O is so 2010.
 - **🌐 Public IP**: Do all your Claw stuff, completely unrestricted.
+- **♾️ Unlimited Egress**: Transfer as much data as you need without worrying about the bill.
 
 [**👉 Deploy your OpenClaw Agent Now**](https://console.huddle01.com)
 
