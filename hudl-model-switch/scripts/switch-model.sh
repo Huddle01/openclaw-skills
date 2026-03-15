@@ -83,6 +83,23 @@ if [ "${AGENT_COUNT:-0}" -eq 0 ]; then
 fi
 
 jq --arg model "$TARGET_MODEL" '
+  .models.providers.hudl.models = (
+    ((.models.providers.hudl.models // [])
+      | map(
+          .id = (
+            (.id // "")
+            | if startswith("hudl/") then . else "hudl/" + . end
+          )
+        )
+      | map(select(.id != "hudl/"))
+      | unique_by(.id))
+    as $catalog
+    | if any($catalog[]?; .id == $model) then
+        $catalog
+      else
+        $catalog + [{"id": $model, "name": $model}]
+      end
+  ) |
   .agents.defaults.model.primary = $model |
   if (.agents.list // [] | length) > 0 then
     if any(.agents.list[]; .id == "main") then
@@ -101,6 +118,7 @@ TMP_FILE=""
 ACTIVE_MAIN="$(jq -r '(.agents.list // [] | map(select(.id=="main")) | .[0].model.primary) // empty' "$CONFIG")"
 ACTIVE_FIRST="$(jq -r '(.agents.list // [])[0].model.primary // empty' "$CONFIG")"
 DEFAULT_MODEL="$(jq -r '.agents.defaults.model.primary // empty' "$CONFIG")"
+CATALOG_IDS="$(jq -r '(.models.providers.hudl.models // []) | map(.id // empty) | join(",")' "$CONFIG")"
 
 ACTIVE_MODEL="$ACTIVE_MAIN"
 if [ -z "$ACTIVE_MODEL" ]; then
@@ -131,7 +149,22 @@ if [ "$ACTIVE_MODEL" != "$TARGET_MODEL" ] || [ "$DEFAULT_MODEL" != "$TARGET_MODE
   exit 1
 fi
 
+if ! jq -e --arg model "$TARGET_MODEL" 'any((.models.providers.hudl.models // [])[]?; (.id // empty) == $model)' "$CONFIG" >/dev/null; then
+  echo "ERROR: Switch completed but provider model catalog does not contain target '$TARGET_MODEL'."
+  echo "config: $CONFIG"
+  echo "provider models: ${CATALOG_IDS:-<empty>}"
+  exit 1
+fi
+
+if jq -e 'any((.models.providers.hudl.models // [])[]?; ((.id // "") | startswith("hudl/")) | not)' "$CONFIG" >/dev/null; then
+  echo "ERROR: Switch completed but provider model catalog still contains non-hudl ids."
+  echo "config: $CONFIG"
+  echo "provider models: ${CATALOG_IDS:-<empty>}"
+  exit 1
+fi
+
 echo "OK: model switched"
 echo "config: $CONFIG"
 echo "agent primary: $ACTIVE_MODEL"
 echo "defaults primary: $DEFAULT_MODEL"
+echo "provider models: ${CATALOG_IDS:-<empty>}"

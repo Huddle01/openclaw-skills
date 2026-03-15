@@ -14,6 +14,7 @@ Switch the active LLM model for this OpenClaw agent via the Huddle01 GRU gateway
 - Never edit JSON manually for model switching. Always use `scripts/switch-model.sh`.
 - Never modify provider wiring during a switch (`models.providers.hudl.baseUrl`, `apiKey`, and other unrelated keys stay unchanged).
 - Treat any post-switch mismatch, missing model field, or non-`hudl/` result as a hard failure. Do not restart in that state.
+- For status/reporting, the active agent model is the source of truth. `agents.defaults.model.primary` is only a default and may be stale.
 
 ## Prerequisites
 
@@ -57,6 +58,7 @@ Read and note current values so the response can show before/after:
 - active agent model (`agents.list[*].model.primary`, preferring agent `id: "main"`)
 - default model (`agents.defaults.model.primary`)
 - If `.agents.list` has no entries, stop. This skill is for switching an active agent model, so a config with no agent entries is not a valid target.
+- When active and default differ, describe that as a mismatch and treat the active agent model as the model currently in use.
 
 **Step 4: Switch model via script (required)**
 
@@ -71,8 +73,11 @@ bash <skill_dir>/scripts/switch-model.sh <hudl-model-id>
 Expected behavior from script:
 - Updates `agents.defaults.model.primary`
 - Updates active agent model (`agents.list[*].model.primary`, preferring `id: "main"`, otherwise first agent)
+- Normalizes `models.providers.hudl.models[*].id` so every catalog ID is `hudl/...`
+- Ensures the target model exists in `models.providers.hudl.models`
 - Preserves unrelated configuration
 - Fails if the resulting active/default model fields are empty, not `hudl/`-prefixed, or do not exactly match the requested target
+- Fails if the provider model catalog still contains non-`hudl/` IDs or is missing the target model
 
 Failure handling:
 - If script fails, stop and show the script error.
@@ -104,6 +109,7 @@ After restart, report:
 - new active/default model values
 - alignment status (aligned or mismatch)
 - exact final model ID in use
+- provider catalog normalization status
 
 ### On "what model am I on" / "current model"
 
@@ -116,6 +122,13 @@ After restart, report:
    - whether each value is correctly `hudl/`-prefixed
    - config path used for the check
 
+Reporting rules:
+- Do not say "current model is X" based only on `agents.defaults.model.primary`.
+- If `agents.list[*].model.primary` and `agents.defaults.model.primary` differ, say the active agent model is currently in use and the default is stale/misaligned.
+- When the user asks to "show on file" or "prove it from config", show both paths and values:
+  - `agents.list[main-or-first].model.primary`
+  - `agents.defaults.model.primary`
+
 No restart is needed for read-only status checks.
 
 ## Example exchanges
@@ -127,8 +140,18 @@ Agent: Checking GRU gateway config... verified.
 Agent: Resolved target model: hudl/claude-opus-4.6.
 Agent: Current models -> active: hudl/minimax-m2.5, default: hudl/minimax-m2.5.
 Agent: Running switch script... success.
+Agent: Provider model catalog normalized and includes hudl/claude-opus-4.6.
 Agent: Restarting gateway now; it may take a couple minutes.
 Agent: Restart complete. Active: hudl/claude-opus-4.6, default: hudl/claude-opus-4.6 (aligned).
+```
+
+**Mismatched config on status check:**
+```
+User: what model am I on?
+Agent: Config path: /home/ubuntu/.openclaw/openclaw.json
+Agent: Active model in use: hudl/minimax-m2.5 (from agents.list[id=main].model.primary)
+Agent: Default model: gpt-4.1 (from agents.defaults.model.primary)
+Agent: Status: mismatch. The gateway is currently using hudl/minimax-m2.5; the default value is stale and should not be reported as the live model.
 ```
 
 **No hudl provider:**
