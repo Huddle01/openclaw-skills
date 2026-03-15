@@ -3,14 +3,14 @@
 # --- Configuration ---
 SKILL_DIR   := .
 SLUG        := hudl-model-switch
-NAME        := "Hudl Model Switch"
+NAME        := "Hudl AI Openclaw Model Switch"
 MAJOR       := 1
-MINOR := 2
+MINOR := 0
 PATCH := 0
 VERSION     = $(shell grep '^MAJOR' Makefile | awk '{print $$3}').$(shell grep '^MINOR' Makefile | awk '{print $$3}').$(shell grep '^PATCH' Makefile | awk '{print $$3}')
-DESCRIPTION := "Switch between 29 LLM models on the Huddle01 GRU gateway. Just say 'switch to opus' or 'use deepseek' in chat."
+DESCRIPTION := "Switch between 30+ LLM models when using Hudl AI inside Openclaw. Just say 'switch to opus' or 'use deepseek' in chat."
 TAGS        := "llm,ai-inference,huddle01,huddle01-cloud,model-switching,huddle01,gru,openclaw"
-CHANGELOG   := "Initial release with 29 models across OpenAI, Anthropic, Google, DeepSeek, xAI, Qwen, MiniMax, Moonshot, Meta, Mistral"
+CHANGELOG   := "Initial release with 30+ models across OpenAI, Anthropic, Google, DeepSeek, xAI, Qwen, MiniMax, Moonshot, Meta, Mistral"
 
 .PHONY: help version latest-version set-version publish update patch pack clean bump bump-major bump-patch
 
@@ -64,7 +64,6 @@ publish: ## Publish the skill to ClawHub
 		--slug $(SLUG) \
 		--name $(NAME) \
 		--version $(VERSION) \
-		--description $(DESCRIPTION) \
 		--tags $(TAGS) \
 		--changelog $(CHANGELOG)
 
