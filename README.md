@@ -40,6 +40,7 @@ The Claw community is built different. We're hackers, tinkerers, and builders. O
 |---|---|---|
 | **[`hudl-model-switch`](./hudl-model-switch/)** | Flip between models like a ninja. Dynamic model switching for the Hudl provider. | [Huddle01](https://github.com/Huddle01) |
 | **[`lossless-claw`](./lossless-claw/)** | Lossless Claw implementation for OpenClaw. | [Martian](https://github.com/martian-engineering) |
+| **[`OpenClaw-Hierarchical-Memory-System`](./OpenClaw-Hierarchical-Memory-System/)** | Hierarchical Memory System for OpenClaw. | [ucsandman](https://github.com/ucsandman) |
 
 *(Got a script that does something wild? PR it!)*
 

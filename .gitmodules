@@ -1,3 +1,6 @@
 [submodule "lossless-claw"]
 	path = lossless-claw
 	url = https://github.com/martian-engineering/lossless-claw
+[submodule "OpenClaw-Hierarchical-Memory-System"]
+	path = OpenClaw-Hierarchical-Memory-System
+	url = https://github.com/ucsandman/OpenClaw-Hierarchical-Memory-System
