@@ -68,5 +68,5 @@ MIT. Go crazy. See [LICENSE.md](LICENSE.md).
 
 ---
 <div align="center">
-  <i>Built with 🦀 by the OpenClaw Community</i>
+  <i>Built by 🦀 for the OpenClaw Community</i>
 </div>
