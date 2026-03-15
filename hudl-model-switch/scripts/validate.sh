@@ -1,22 +1,23 @@
 #!/usr/bin/env bash
-# validate.sh -- Check that the hudl provider exists and points at gru.huddle01.io
-# Exit 0 = good to go, Exit 1 = missing or misconfigured
+# validate.sh -- Check that the hudl provider exists and points at gru.huddle01.io.
+# Exit 0 = good to go, Exit 1 = missing or misconfigured.
 
 set -euo pipefail
 
-CONFIG_CANDIDATES=(
-  "${OPENCLAW_CONFIG:-}"
-  "$HOME/.openclaw/config.json"
-  "$HOME/.openclaw/openclaw.json"
-)
+resolve_config() {
+  local candidate
 
-CONFIG=""
-for candidate in "${CONFIG_CANDIDATES[@]}"; do
-  if [ -n "$candidate" ] && [ -f "$candidate" ]; then
-    CONFIG="$candidate"
-    break
-  fi
-done
+  for candidate in "${OPENCLAW_CONFIG:-}" "$HOME/.openclaw/config.json" "$HOME/.openclaw/openclaw.json"; do
+    if [ -n "$candidate" ] && [ -f "$candidate" ]; then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+CONFIG="$(resolve_config || true)"
 
 # Check config exists
 if [ -z "$CONFIG" ]; then
@@ -41,8 +42,8 @@ fi
 
 # Check baseUrl matches gru.huddle01.io
 BASE_URL=$(jq -r '.models.providers.hudl.baseUrl // empty' "$CONFIG")
-if [[ "$BASE_URL" != *"gru.huddle01.io"* ]]; then
-  echo "ERROR: hudl provider baseUrl is '$BASE_URL', expected 'https://gru.huddle01.io'. This skill only works with the Huddle01 GRU gateway."
+if [[ ! "$BASE_URL" =~ ^(https?://)?gru\.huddle01\.io(/.*)?$ ]]; then
+  echo "ERROR: hudl provider baseUrl is '$BASE_URL', expected host 'gru.huddle01.io'. This skill only works with the Huddle01 GRU gateway."
   exit 1
 fi
 

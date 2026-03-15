@@ -59,9 +59,13 @@ Do exactly this:
 7) Run:
    `bash ~/.openclaw/skills/hudl-model-switch/scripts/validate.sh`
    - If it fails, show the exact error and stop.
-8) Restart OpenClaw:
+8) Before restart, tell me:
+   - gateway is restarting now
+   - it can take a couple of minutes to come back online
+   - you will confirm the applied model changes as soon as it's back
+9) Restart OpenClaw:
    `openclaw restart`
-9) Confirm completion with:
+10) Confirm completion as soon as it is back with:
    - installed path ✅
    - validation result ✅
    - current active model from the detected OpenClaw config (`~/.openclaw/config.json` or `~/.openclaw/openclaw.json`) (`model.primary`) ✅
@@ -90,9 +94,10 @@ Steps:
 5) Run validation:
    `bash ~/.openclaw/skills/hudl-model-switch/scripts/validate.sh`
    - If validation fails, print exact error and stop.
-6) Restart:
+6) Before restart, tell me gateway restart may take a couple of minutes and that you'll confirm changes once it's back.
+7) Restart:
    `openclaw restart`
-7) Report:
+8) Report immediately after gateway is back:
    - install path
    - validation output
    - active `model.primary` in detected OpenClaw config (`~/.openclaw/config.json` or `~/.openclaw/openclaw.json`)
@@ -127,6 +132,7 @@ hudl-model-switch/
 ├── SKILL.md              # Main skill instructions
 ├── scripts/
 │   └── validate.sh       # Checks hudl provider config before any switch
+│   └── switch-model.sh   # Deterministically updates active/default model values
 ├── references/
 │   └── models.md         # Full model catalog with aliases
 └── README.md
@@ -137,7 +143,7 @@ hudl-model-switch/
 1. User says "switch to opus"
 2. Skill runs `validate.sh` to confirm `hudl` provider with `gru.huddle01.io` exists
 3. Maps "opus" to `hudl/claude-opus-4.6` using the model catalog
-4. Edits detected OpenClaw config (`~/.openclaw/config.json` or `~/.openclaw/openclaw.json`):
+4. Runs `scripts/switch-model.sh` (not manual edits), which updates:
    - `agents.list[*].model.primary` for the active agent
    - `agents.defaults.model.primary` for consistency
 5. Runs `openclaw restart`
