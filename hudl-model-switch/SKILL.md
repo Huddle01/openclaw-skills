@@ -36,7 +36,10 @@ If the user asks for a model not in the catalog, still prefix it with `hudl/` bu
 
 **Step 3: Edit the config**
 
-1. Read `~/.openclaw/config.json`
+1. Read the same OpenClaw config path validated by `scripts/validate.sh`:
+   - `~/.openclaw/config.json` (preferred)
+   - `~/.openclaw/openclaw.json` (fallback)
+   - or `OPENCLAW_CONFIG` if provided
 2. Find the current agent's entry in `agents.list`
 3. Change only `model.primary` to the new `hudl/`-prefixed model ID
 4. Write the file back
@@ -54,7 +57,7 @@ Tell the user the switch is complete and which model is now active.
 ### On "what model am I on" / "current model"
 
 1. Run the validation script (Step 1 above).
-2. Read `~/.openclaw/config.json`.
+2. Read the same config path selected by validation (`config.json` or `openclaw.json`).
 3. Report the value of `model.primary` from the current agent's entry.
 
 ## Example exchanges

@@ -32,7 +32,76 @@ cp -r openclaw-skills/hudl-model-switch ~/.openclaw/skills/hudl-model-switch
 clawhub install hudl-model-switch
 ```
 
-Then restart OpenClaw.
+
+## Paste this prompt to install
+
+### OpenClaw prompt (fun mode)
+
+```text
+Yo OpenClaw, let's do a clean install party for `hudl-model-switch` 🚀🤖
+
+Please install and verify this skill end-to-end with zero chaos.
+
+Do exactly this:
+1) Check if ClawHub CLI exists:
+   `command -v clawhub >/dev/null 2>&1`
+2) If not installed, install it:
+   `npm i -g clawhub`
+3) Install from ClawHub:
+   `clawhub install hudl-model-switch`
+4) Verify the skill directory exists at `~/.openclaw/skills/hudl-model-switch`
+5) Verify required files exist:
+   - `~/.openclaw/skills/hudl-model-switch/SKILL.md`
+   - `~/.openclaw/skills/hudl-model-switch/scripts/validate.sh`
+   - `~/.openclaw/skills/hudl-model-switch/references/models.md`
+6) Ensure `validate.sh` is executable; if not, run:
+   `chmod +x ~/.openclaw/skills/hudl-model-switch/scripts/validate.sh`
+7) Run:
+   `bash ~/.openclaw/skills/hudl-model-switch/scripts/validate.sh`
+   - If it fails, show the exact error and stop.
+8) Restart OpenClaw:
+   `openclaw restart`
+9) Confirm completion with:
+   - installed path ✅
+   - validation result ✅
+   - current active model from the detected OpenClaw config (`~/.openclaw/config.json` or `~/.openclaw/openclaw.json`) (`model.primary`) ✅
+
+Constraints:
+- Do not modify unrelated files.
+- Do not edit provider base URLs or API keys.
+- If a command fails, report the failing command + stderr and stop.
+```
+
+### Generic prompt (GitHub fallback)
+
+```text
+Install `hudl-model-switch` from GitHub and verify it for OpenClaw.
+
+Steps:
+1) Create skills directory:
+   `mkdir -p ~/.openclaw/skills`
+2) Clone repo to temp folder:
+   `tmp_dir="$(mktemp -d)" && git clone https://github.com/huddle01/openclaw-skills.git "$tmp_dir/openclaw-skills"`
+3) Replace skill folder:
+   `rm -rf ~/.openclaw/skills/hudl-model-switch`
+   `cp -R "$tmp_dir/openclaw-skills/hudl-model-switch" ~/.openclaw/skills/hudl-model-switch`
+4) Ensure script is executable:
+   `chmod +x ~/.openclaw/skills/hudl-model-switch/scripts/validate.sh`
+5) Run validation:
+   `bash ~/.openclaw/skills/hudl-model-switch/scripts/validate.sh`
+   - If validation fails, print exact error and stop.
+6) Restart:
+   `openclaw restart`
+7) Report:
+   - install path
+   - validation output
+   - active `model.primary` in detected OpenClaw config (`~/.openclaw/config.json` or `~/.openclaw/openclaw.json`)
+
+Constraints:
+- Do not edit unrelated files.
+- Do not change provider URLs or API keys.
+- Stop immediately on command errors and show stderr.
+```
 
 ## Supported models (29)
 
@@ -68,7 +137,7 @@ hudl-model-switch/
 1. User says "switch to opus"
 2. Skill runs `validate.sh` to confirm `hudl` provider with `gru.huddle01.io` exists
 3. Maps "opus" to `hudl/claude-opus-4.6` using the model catalog
-4. Edits `~/.openclaw/config.json` (only `model.primary`, nothing else)
+4. Edits detected OpenClaw config (`~/.openclaw/config.json` or `~/.openclaw/openclaw.json`) (only `model.primary`, nothing else)
 5. Runs `openclaw restart`
 
 If the hudl provider isn't configured, the skill refuses to proceed and tells the user what's missing.

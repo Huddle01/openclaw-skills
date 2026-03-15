@@ -4,11 +4,25 @@
 
 set -euo pipefail
 
-CONFIG="$HOME/.openclaw/config.json"
+CONFIG_CANDIDATES=(
+  "${OPENCLAW_CONFIG:-}"
+  "$HOME/.openclaw/config.json"
+  "$HOME/.openclaw/openclaw.json"
+)
+
+CONFIG=""
+for candidate in "${CONFIG_CANDIDATES[@]}"; do
+  if [ -n "$candidate" ] && [ -f "$candidate" ]; then
+    CONFIG="$candidate"
+    break
+  fi
+done
 
 # Check config exists
-if [ ! -f "$CONFIG" ]; then
-  echo "ERROR: OpenClaw config not found at $CONFIG"
+if [ -z "$CONFIG" ]; then
+  echo "ERROR: OpenClaw config not found."
+  echo "Checked: $HOME/.openclaw/config.json and $HOME/.openclaw/openclaw.json"
+  echo "Tip: set OPENCLAW_CONFIG=/path/to/your/config.json if your config is elsewhere."
   exit 1
 fi
 
@@ -39,5 +53,5 @@ if [ -z "$API_KEY" ]; then
   exit 1
 fi
 
-echo "OK: hudl provider verified (baseUrl: $BASE_URL)"
+echo "OK: hudl provider verified (config: $CONFIG, baseUrl: $BASE_URL)"
 exit 0
